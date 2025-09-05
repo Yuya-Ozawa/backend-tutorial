@@ -1,0 +1,146 @@
+openapi: 3.0.0
+x-stoplight:
+  id: 70he5bttrcegx
+info:
+  title: tutorial-api
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /contents:
+    post:
+      summary: Create New Content
+      operationId: post-content
+      responses:
+        '200':
+          description: Content Created
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Content'
+              examples: {}
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostContentRequest'
+            examples: {}
+        description: Post the necessary fields for the API to create a new content.
+      description: Create a new content.
+    parameters: []
+    get:
+      summary: Get Contents
+      operationId: get-contents
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Content'
+      tags:
+        - Content
+  '/contents/{contentId}':
+    parameters:
+      - schema:
+          type: string
+        name: contentId
+        in: path
+        required: true
+    get:
+      summary: Get Content Info by Content ID
+      tags:
+        - Content
+      responses:
+        '200':
+          description: Content Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Content'
+              examples:
+                Get Content Alice Smith:
+                  value:
+                    id: 142
+                    firstName: Alice
+                    lastName: Smith
+                    email: alice.smith@gmail.com
+                    dateOfBirth: '1997-10-31'
+                    emailVerified: true
+                    signUpDate: '2019-08-24'
+      operationId: get-contents-contentId
+      description: Retrieve the information of the content with the matching content ID.
+    delete:
+      summary: Delete a Content by Content ID
+      operationId: delete-contents-contentsId
+      responses:
+        '204':
+          description: No Content
+      tags:
+        - Content
+    put:
+      summary: Update a Content
+      operationId: put-contents-contentsId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Content'
+      tags:
+        - Content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostContentRequest'
+      description: 一部のパラメータのみの更新も可能とする
+components:
+  schemas:
+    Content:
+      title: Content
+      type: object
+      description: ''
+      x-examples:
+        Alice Smith:
+          id: 142
+          firstName: Alice
+          lastName: Smith
+          email: alice.smith@gmail.com
+          dateOfBirth: '1997-10-31'
+          emailVerified: true
+          signUpDate: '2019-08-24'
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the given content.
+        title:
+          type: string
+        body:
+          type: string
+        createdAt:
+          type: string
+          format: date
+          description: The date that the content was created.
+        updatedAt:
+          type: string
+      required:
+        - id
+        - title
+        - body
+    PostContentRequest:
+      title: PostContentRequest
+      x-stoplight:
+        id: uyyane08s9ozp
+      type: object
+      properties:
+        title:
+          type: string
+        body:
+          type: string
+  requestBodies: {}

@@ -1,0 +1,9 @@
+{
+  "eslint.workingDirectories": [
+    "./"
+  ],
+  "search.exclude": {
+    "**/.yarn": true,
+    "**/.pnp.*": true
+  }
+}

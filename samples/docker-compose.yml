@@ -1,0 +1,24 @@
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+
+  db:
+    image: mysql:8.4
+    restart: always
+    ports:
+      - 13306:3306
+    volumes:
+      - ./volumes/example_db/db/data:/var/lib/mysql
+      # - ./volumes/example_db/db/my.cnf:/etc/mysql/conf.d/my.cnf
+    environment:
+      MYSQL_DATABASE: example_db
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: docker
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080

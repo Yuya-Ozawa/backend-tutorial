@@ -1,0 +1,106 @@
+openapi: 3.0.3
+info:
+  title: API Tutorial
+  version: 1.0.0
+  description: Content API（Prisma + Express）
+servers:
+  - url: http://localhost:3000
+
+tags:
+  - name: contents
+    description: コンテンツのCRUD
+
+components:
+  schemas:
+    Content:
+      type: object
+      required: [id, title, createdAt, updatedAt]
+      properties:
+        id: { type: integer, example: 1 }
+        title: { type: string, example: "Hello" }
+        body: { type: string, nullable: true, example: "World" }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+
+paths:
+  /contents:
+    get:
+      tags: [contents]
+      summary: 一覧取得
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Content' }
+    post:
+      tags: [contents]
+      summary: 作成
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [title]
+              properties:
+                title: { type: string }
+                body: { type: string, nullable: true }
+      responses:
+        "201":
+          description: 作成
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Content' }
+  /contents/{id}:
+    get:
+      tags: [contents]
+      summary: 1件取得
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Content' }
+        "404": { description: Not Found }
+    put:
+      tags: [contents]
+      summary: 更新
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [title]
+              properties:
+                title: { type: string }
+                body: { type: string, nullable: true }
+      responses:
+        "200":
+          description: 更新
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Content' }
+    delete:
+      tags: [contents]
+      summary: 削除
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      responses:
+        "204": { description: 削除完了 }
